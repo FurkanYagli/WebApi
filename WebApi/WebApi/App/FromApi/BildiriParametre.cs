@@ -7,7 +7,6 @@ namespace WebApi.ToApi
 {
     public class BildiriParametre
     {
-        //public int Id { get; set; }
         public int AltKategoriId { get; set; }
         public int KullaniciId { get; set; }
         public int KonumId { get; set; }

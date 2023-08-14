@@ -68,3 +68,5 @@ C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.pdb
 C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.csprojAssemblyReference.cache
 C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.ekleDuyuru.resources
 C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.csproj.GenerateResource.cache
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.smsGuncelleme.resources
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.BildiriNull.resources

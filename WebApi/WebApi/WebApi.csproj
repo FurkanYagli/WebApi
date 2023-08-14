@@ -94,6 +94,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\FromApi\SmsParametre.cs" />
     <Compile Include="App\Return.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Context\WebApiContext.cs" />
@@ -113,6 +114,14 @@
     <Compile Include="Migrations\202308111224022_ekleDuyuru.cs" />
     <Compile Include="Migrations\202308111224022_ekleDuyuru.designer.cs">
       <DependentUpon>202308111224022_ekleDuyuru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308131428042_smsGuncelleme.cs" />
+    <Compile Include="Migrations\202308131428042_smsGuncelleme.designer.cs">
+      <DependentUpon>202308131428042_smsGuncelleme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308140538509_BildiriNull.cs" />
+    <Compile Include="Migrations\202308140538509_BildiriNull.designer.cs">
+      <DependentUpon>202308140538509_BildiriNull.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AltKategori.cs" />
@@ -150,6 +159,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202308111224022_ekleDuyuru.resx">
       <DependentUpon>202308111224022_ekleDuyuru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308131428042_smsGuncelleme.resx">
+      <DependentUpon>202308131428042_smsGuncelleme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308140538509_BildiriNull.resx">
+      <DependentUpon>202308140538509_BildiriNull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

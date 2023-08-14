@@ -12,6 +12,10 @@ namespace WebApi.Models
 
         public string Text { get; set; }
 
+        public string Kod { get; set; }
+
+        public string GidenTel { get; set; }
+
         [ForeignKey("KullaniciId")]
         public Kullanici kul { get; set; }
     }

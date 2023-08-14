@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApi.ToApi
+namespace WebApi.App.FromApi
 {
-    public class KayitParametre
+    public class SmsParametre
     {
-        //public int Id { get; set; }
-        public string Tc { get; set; }
-        public string Tel { get; set; }
         public string Ad { get; set; }
         public string Soyad { get; set; }
+        public string Tel { get; set; }
         public string Mail { get; set; }
         public int SmsId { get; set; }
     }

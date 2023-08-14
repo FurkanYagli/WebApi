@@ -8,14 +8,14 @@ namespace WebApi.Models
 {
     public class Bildiri:Entity
     {
-        public int AltKategoriId { get; set; }
+        public int? AltKategoriId { get; set; }
         public int KullaniciId { get; set; }
-        public int KonumId { get; set; }
+        public int? KonumId { get; set; }
         public string Aciklama { get; set; }
-        public int FotografId { get; set; }
+        public int? FotografId { get; set; }
 
         [ForeignKey("AltKategoriId")]
-        public Bildiri bildiri { get; set; }
+        public AltKategori altKategori { get; set; }
 
         [ForeignKey("KullaniciId")]
         public Kullanici kullanici { get; set; }
