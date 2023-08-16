@@ -6,13 +6,14 @@ using System.Web;
 
 namespace WebApi.Models
 {
-    public class Bildiri:Entity
+    public class Bildiri : Entity
     {
         public int? AltKategoriId { get; set; }
         public int KullaniciId { get; set; }
         public int? KonumId { get; set; }
         public string Aciklama { get; set; }
         public int? FotografId { get; set; }
+        public bool Aktif { get; set; }
 
         [ForeignKey("AltKategoriId")]
         public AltKategori altKategori { get; set; }

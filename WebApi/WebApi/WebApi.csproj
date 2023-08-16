@@ -94,6 +94,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\FromApi\SmsKontrolParametre.cs" />
     <Compile Include="App\FromApi\SmsParametre.cs" />
     <Compile Include="App\Return.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -111,17 +112,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202308111224022_ekleDuyuru.cs" />
-    <Compile Include="Migrations\202308111224022_ekleDuyuru.designer.cs">
-      <DependentUpon>202308111224022_ekleDuyuru.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308131428042_smsGuncelleme.cs" />
-    <Compile Include="Migrations\202308131428042_smsGuncelleme.designer.cs">
-      <DependentUpon>202308131428042_smsGuncelleme.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308140538509_BildiriNull.cs" />
-    <Compile Include="Migrations\202308140538509_BildiriNull.designer.cs">
-      <DependentUpon>202308140538509_BildiriNull.cs</DependentUpon>
+    <Compile Include="Migrations\202308160545283_deneme.cs" />
+    <Compile Include="Migrations\202308160545283_deneme.designer.cs">
+      <DependentUpon>202308160545283_deneme.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AltKategori.cs" />
@@ -131,6 +124,7 @@
     <Compile Include="Models\DuyuruFotograf.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\BildiriFotograf.cs" />
+    <Compile Include="Models\Gikom.cs" />
     <Compile Include="Models\Hareket.cs" />
     <Compile Include="Models\Islem.cs" />
     <Compile Include="Models\Kategori.cs" />
@@ -157,14 +151,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202308111224022_ekleDuyuru.resx">
-      <DependentUpon>202308111224022_ekleDuyuru.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308131428042_smsGuncelleme.resx">
-      <DependentUpon>202308131428042_smsGuncelleme.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308140538509_BildiriNull.resx">
-      <DependentUpon>202308140538509_BildiriNull.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202308160545283_deneme.resx">
+      <DependentUpon>202308160545283_deneme.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

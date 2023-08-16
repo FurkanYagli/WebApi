@@ -23,5 +23,6 @@ namespace WebApi.Context
         public DbSet<Islem> Islemler { get; set; }
         public DbSet<Sms> Smsler { get; set; }
         public DbSet<Duyuru> Duyurular { get; set; }
+        public DbSet<Gikom> GikomBilgiler { get; set; }
     }
 }

@@ -7,8 +7,10 @@ using System.Web;
 
 namespace WebApi.Models
 {
-    public class Kisi:Entity
+    public class Kisi : Entity
     {
+
+        public bool Aktif { get; set; }
         public string Tc { get; set; }
         public string Tel { get; set; }
         public string Ad { get; set; }
@@ -17,16 +19,4 @@ namespace WebApi.Models
 
 
     }
-
-    /*public class Kullanici
-    {
-        [Key]
-        public int Id { get; set; }
-        public bool Aktif { get; set; }
-        public int KisiId { get; set; }
-
-        [ForeignKey("KisiId")]
-        public Kisi KisiKim { get; set; }
-
-    }*/
 }

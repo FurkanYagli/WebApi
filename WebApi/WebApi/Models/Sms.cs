@@ -6,9 +6,9 @@ using System.Web;
 
 namespace WebApi.Models
 {
-    public class Sms:Entity
+    public class Sms : Entity
     {
-        public int KullaniciId { get; set; }
+        public int KisiId { get; set; }
 
         public string Text { get; set; }
 
@@ -16,7 +16,7 @@ namespace WebApi.Models
 
         public string GidenTel { get; set; }
 
-        [ForeignKey("KullaniciId")]
-        public Kullanici kul { get; set; }
+        [ForeignKey("KisiId")]
+        public Kisi IdKisi { get; set; }
     }
 }
