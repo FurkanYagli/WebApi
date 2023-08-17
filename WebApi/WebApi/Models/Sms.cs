@@ -16,6 +16,8 @@ namespace WebApi.Models
 
         public string GidenTel { get; set; }
 
+        public DateTime GecerlilikTarih { get; set; }
+
         [ForeignKey("KisiId")]
         public Kisi IdKisi { get; set; }
     }

@@ -68,3 +68,8 @@ C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.pdb
 C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.csprojAssemblyReference.cache
 C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.deneme.resources
 C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.csproj.GenerateResource.cache
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.second.resources
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.second1.resources
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.first.resources
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.Ban.resources
+C:\Users\Furkan\source\repos\WebApi\WebApi\obj\Debug\WebApi.Migrations.BanTarih.resources

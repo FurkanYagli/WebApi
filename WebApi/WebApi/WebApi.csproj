@@ -94,6 +94,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\FromApi\BanParametre.cs" />
     <Compile Include="App\FromApi\SmsKontrolParametre.cs" />
     <Compile Include="App\FromApi\SmsParametre.cs" />
     <Compile Include="App\Return.cs" />
@@ -116,8 +117,29 @@
     <Compile Include="Migrations\202308160545283_deneme.designer.cs">
       <DependentUpon>202308160545283_deneme.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202308161058013_second.cs" />
+    <Compile Include="Migrations\202308161058013_second.designer.cs">
+      <DependentUpon>202308161058013_second.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308161119133_second1.cs" />
+    <Compile Include="Migrations\202308161119133_second1.designer.cs">
+      <DependentUpon>202308161119133_second1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308170557591_first.cs" />
+    <Compile Include="Migrations\202308170557591_first.designer.cs">
+      <DependentUpon>202308170557591_first.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308170618286_Ban.cs" />
+    <Compile Include="Migrations\202308170618286_Ban.designer.cs">
+      <DependentUpon>202308170618286_Ban.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308170657596_BanTarih.cs" />
+    <Compile Include="Migrations\202308170657596_BanTarih.designer.cs">
+      <DependentUpon>202308170657596_BanTarih.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AltKategori.cs" />
+    <Compile Include="Models\Ban.cs" />
     <Compile Include="Models\BelBilgi.cs" />
     <Compile Include="Models\Bildiri.cs" />
     <Compile Include="Models\Duyuru.cs" />
@@ -153,6 +175,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202308160545283_deneme.resx">
       <DependentUpon>202308160545283_deneme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308161058013_second.resx">
+      <DependentUpon>202308161058013_second.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308161119133_second1.resx">
+      <DependentUpon>202308161119133_second1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308170557591_first.resx">
+      <DependentUpon>202308170557591_first.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308170618286_Ban.resx">
+      <DependentUpon>202308170618286_Ban.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308170657596_BanTarih.resx">
+      <DependentUpon>202308170657596_BanTarih.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
