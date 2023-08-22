@@ -9,6 +9,8 @@ namespace WebApi.Models
 {
     public class Kullanici:Entity
     {
+        public string KullaniciAdi { get; set; }
+        public string KullaniciSifre { get; set; }
         public bool Aktif { get; set; }
         public int KisiId { get; set; }
         [ForeignKey("KisiId")]

@@ -43,7 +43,7 @@ namespace WebApi.Controllers
                             _return.data = _kisi;
                             _return.success = true;
                             _return.message = "Başarılı";
-                            smsKod = smsGonder(_kisi.Id);
+                            smsGonder(_kisi.Id, 1);
                             return _return;
                         }
                         else
@@ -56,7 +56,7 @@ namespace WebApi.Controllers
 
 
                     }
-                    else if (mukerrerKisi(_kisi.Tc, _kisi.Tel) == false && _kisi.Aktif == false && banKontrol(tcKisiCek(_kisi.Tc, _kisi.Tel)) == true)
+                    else if (mukerrerKisi(_kisi.Tc, _kisi.Tel) == false && banKontrol(tcKisiCek(_kisi.Tc, _kisi.Tel)) == true)
                     {
 
                         if (_kisi.Tc.Length == 11 && _kisi.Tel.Length == 11)
@@ -65,7 +65,7 @@ namespace WebApi.Controllers
                             _return.data = _kisi;
                             _return.success = true;
                             _return.message = "Başarılı";
-                            smsKod = smsGonder(tcKisiCek(_kisi.Tc, _kisi.Tel));
+                            smsGonder(tcKisiCek(_kisi.Tc, _kisi.Tel), 1);
                             return _return;
                         }
                         else
@@ -108,29 +108,25 @@ namespace WebApi.Controllers
             Return _return = new Return();
             using (WebApiContext context = new WebApiContext())
             {
-                kisiTc = girisParametre.Tc;
-                kisiTel = girisParametre.Tel;
-                int id = kulCek(kisiTc, kisiTel);
+                int id = kulCek(girisParametre.Tc, girisParametre.Tel);
                 try
                 {
                     Kullanici kullanici = context.Kullanicilar.Find(id);
                     if (kullanici.Aktif == true && banKontrol(kullanici.KisiId) == true)
                     {
-                        //metod ile verileri çek
                         Hareket _hareket = new Hareket()
                         {
-                            //enum
-                            //sms
                             KullaniciId = id,
                             SayfaId = null,
                             IslemId = null,
                             GuncellemeTarihi = DateTime.Now
-
                         };
-                        int kisiId = tcKisiCek(kisiTc, kisiTel);
+                        smsGonder(id, 2);
+                        context.SaveChanges();
+                        int kisiId = tcKisiCek(girisParametre.Tc, girisParametre.Tel);
                         context.Hareketler.Add(_hareket);
                         context.SaveChanges();
-                        smsGonder(kisiId);
+
 
                         _return.data = _hareket;
                         _return.message = "Başarılı";
@@ -160,21 +156,19 @@ namespace WebApi.Controllers
         [HttpPost]
         public Return kullaniciSil([FromBody]GirisParametre kullaniciSilParametre)
         {
-            kisiTc = kullaniciSilParametre.Tc;
-            kisiTel = kullaniciSilParametre.Tel;
-            int kisiId = tcKisiCek(kisiTc, kisiTel);
-            int id = kulCek(kisiTc, kisiTel);
+
+            int kisiId = tcKisiCek(kullaniciSilParametre.Tc, kullaniciSilParametre.Tel);
+            int kulId = kulCek(kullaniciSilParametre.Tc, kullaniciSilParametre.Tel);
             Return _return = new Return();
             using (WebApiContext context = new WebApiContext())
             {
                 try
                 {
                     Kisi kisi = context.Kisiler.Find(kisiId);
-                    Kullanici kullanici = context.Kullanicilar.Find(id);
+                    Kullanici kullanici = context.Kullanicilar.Find(kulId);
                     kullanici.Aktif = false;
-                    kisi.Aktif = false;
                     context.SaveChanges();
-                    smsGonder(kisiId);
+                    smsGonder(kulId, 5);
                     _return.data = kullanici;
                     _return.success = true;
                     _return.message = "Kişi Silindi";
@@ -195,11 +189,8 @@ namespace WebApi.Controllers
         [HttpPost]
         public Return kullaniciGuncelle([FromBody]KayitParametre kullaniciGuncelleParametre)
         {
-            kisiTc = kullaniciGuncelleParametre.Tc;
-            kisiTel = kullaniciGuncelleParametre.Tel;
-            int id = 5;
-            int kisiId = 2;
-            // int kisiId = KisiCek();
+            int kulId = kulCek(kullaniciGuncelleParametre.Tc, kullaniciGuncelleParametre.Tel);
+            int kisiId = tcKisiCek(kullaniciGuncelleParametre.Tc, kullaniciGuncelleParametre.Tel);
             Return _return = new Return();
             using (WebApiContext context = new WebApiContext())
             {
@@ -215,7 +206,7 @@ namespace WebApi.Controllers
                         kisi.Tel = kullaniciGuncelleParametre.Tel;
                     }
                     kisi.GuncellemeTarihi = DateTime.Now;
-                    smsGonder(kisi.Id);
+                    smsGonder(kulId, 4);
                     context.SaveChanges();
 
                     _return.data = kisi;
@@ -256,7 +247,7 @@ namespace WebApi.Controllers
                     context.Bildiriler.Add(bildiri);
                     context.SaveChanges();
 
-                    if (gikomId(bildiri.Id) != null)
+                    if (gikomId(bildiri.Id) != null || gikomId(bildiri.Id) != 0)
                     {
                         Bildiri bildiriGuncel = context.Bildiriler.Find(bildiri.Id);
                         bildiriGuncel.Aktif = true;
@@ -355,33 +346,69 @@ namespace WebApi.Controllers
         {
             Return _return = new Return();
             KayitParametre kayit = new KayitParametre();
-            IdKisi = smsKontrolParametre.KisiId;
 
             using (WebApiContext context = new WebApiContext())
             {
-                Sms mesaj = context.Smsler.Where(x => x.KisiId == IdKisi).OrderByDescending(x => x.Id).FirstOrDefault() as Sms;
+                Sms mesaj = context.Smsler.Where(x => x.KisiId == smsKontrolParametre.KisiId).OrderByDescending(x => x.Id).FirstOrDefault() as Sms;
                 if (mesaj.GecerlilikTarih >= DateTime.Now)
                 {
-                    Kisi kisi = context.Kisiler.Find(IdKisi);
-                    kisiTc = kisi.Tc;
-                    kisiTel = kisi.Tel;
-                    kayit.Ad = kisi.Ad;
-                    kayit.Mail = kisi.Mail;
-                    kayit.Soyad = kisi.Soyad;
-                    kayit.Tc = kisi.Tc;
-                    kayit.Tel = kisi.Tel;
-
+                    Kisi kisi = context.Kisiler.Find(smsKontrolParametre.KisiId);
 
                     if (smsKontrolParametre.SmsKod == mesaj.Kod)
                     {
                         kisi.Aktif = true;
                         kayit.Aktif = true;
                         context.SaveChanges();
-                        createUser(kayit, kisi.Id);
-                        _return.data = kisi;
-                        _return.success = true;
-                        _return.message = "Başarılı";
-                        return _return;
+                        if (mesaj.SmsTur == 1)
+                        {
+                            kayit.Ad = kisi.Ad;
+                            kayit.Mail = kisi.Mail;
+                            kayit.Soyad = kisi.Soyad;
+                            kayit.Tc = kisi.Tc;
+                            kayit.Tel = kisi.Tel;
+                            createUser(kayit, kisi.Id);
+                            _return.data = kisi;
+                            _return.success = true;
+                            _return.message = "Kayıt Başarılı";
+                            return _return;
+                        }
+                        else if (mesaj.SmsTur == 2)
+                        {
+                            _return.data = kisi;
+                            _return.success = true;
+                            _return.message = "Giriş Başarılı";
+                            return _return;
+                        }
+                        else if (mesaj.SmsTur == 3)
+                        {
+                            _return.data = kisi;
+                            _return.success = true;
+                            _return.message = "Çıkış Başarılı";
+                            return _return;
+                        }
+                        else if (mesaj.SmsTur == 4)
+                        {
+                            _return.data = kisi;
+                            _return.success = true;
+                            _return.message = "Güncelleme İşlemi Başarılı";
+                            return _return;
+                        }
+                        else if (mesaj.SmsTur == 5)
+                        {
+                            _return.data = kisi;
+                            _return.success = true;
+                            _return.message = "Silme İşlemi Başarılı";
+                            return _return;
+                        }
+                        else
+                        {
+                            _return.data = kisi;
+                            _return.success = true;
+                            _return.message = "Başarılı Ancak İşlem Tespit Edilemedi";
+                            return _return;
+                        }
+
+
                     }
                     else
                     {
@@ -412,12 +439,13 @@ namespace WebApi.Controllers
             using (WebApiContext context = new WebApiContext())
             {
                 Kisi kisi = context.Kisiler.Find(banParam.KisiId);
-                Ban ban = new Ban();
+                Kullanici kullanici = context.Kullanicilar.Find(kulCek(kisi.Tc, kisi.Tel));
+                Aktiflik ban = new Aktiflik();
                 ban.Aktif = true;
                 ban.KisiId = banParam.KisiId;
                 ban.BitisTarihi = banParam.BitisTarihi;
-                ban.BanSebebi = banParam.BanSebebi;
-                kisi.Aktif = false;
+                ban.PasifTuru = 1;
+                kullanici.Aktif = false;
                 context.BanlananKullanicilar.Add(ban);
                 context.SaveChanges();
                 _return.data = ban;
@@ -427,29 +455,18 @@ namespace WebApi.Controllers
             }
         }
 
-
-        //Sabitler
-        string Ad;
-        string Soyad;
-        string kisiTel;
-        string kisiTc;
-        int IdKisi;
-        int IdKullanici;
-        string smsKod;
-
         //metodlar
 
         public bool banKontrol(int id)
         {
             using (WebApiContext context = new WebApiContext())
             {
-                Ban ban = context.BanlananKullanicilar.Where(x => x.KisiId == id).OrderByDescending(x => x.Id).FirstOrDefault() as Ban;
+                Aktiflik ban = context.BanlananKullanicilar.Where(x => x.KisiId == id).OrderByDescending(x => x.Id).FirstOrDefault() as Aktiflik;
                 Kisi kisi = context.Kisiler.Find(id);
                 Kullanici kul = context.Kullanicilar.Where(x => x.KisiId == id).FirstOrDefault() as Kullanici;
                 if (ban != null && ban.BitisTarihi > DateTime.Now)
                 {
                     ban.Aktif = true;
-                    kisi.Aktif = false;
                     kul.Aktif = false;
                     context.SaveChanges();
                     return false;
@@ -473,6 +490,119 @@ namespace WebApi.Controllers
             }
         }
 
+        public string smsGonder(int id, int flag)
+        {
+            Random rnd = new Random();
+            string kod = rnd.Next(100000, 999999).ToString();
+            using (WebApiContext context = new WebApiContext())
+            {
+                string Ad;
+                string Soyad;
+                string kisiTel;
+                try
+                {
+                    if (flag == 1)
+                    {
+
+                        Kisi kisi = context.Kisiler.Find(id);
+                        Ad = kisi.Ad;
+                        Soyad = kisi.Soyad;
+                        kisiTel = kisi.Tel;
+                        Sms sms = new Sms();
+                        sms.KayitTarihi = DateTime.Now;
+                        sms.KisiId = kulCek(kisi.Tc, kisi.Tel);
+                        sms.GecerlilikTarih = DateTime.Now.AddMinutes(5);
+                        sms.Text = $"Merhaba {Ad} {Soyad} ALO 153 GBB MOBIL UYGULAMASINA KAYIT OLMAK ICIN DOGRULAMA KODUNUZ:{kod}. IYI GUNLER DILERIZ. KODUN SON GECERLİLİK TARIHI {sms.GecerlilikTarih}";
+                        sms.Kod = kod;
+                        sms.SmsTur = 1;
+                        sms.GidenTel = kisiTel;
+                        context.Smsler.Add(sms);
+                        context.SaveChanges();
+                        return kod;
+                    }
+                    else if (flag == 2)
+                    {
+
+                        Ad = kisiBilgi(id).Ad;
+                        Soyad = kisiBilgi(id).Soyad;
+                        kisiTel = kisiBilgi(id).Tel;
+                        Sms sms = new Sms();
+                        sms.KayitTarihi = DateTime.Now;
+                        sms.KisiId = id;
+                        sms.GecerlilikTarih = DateTime.Now.AddMinutes(5);
+                        sms.Text = $"Merhaba {Ad} {Soyad} ALO 153 GBB MOBIL UYGULAMASINA GIRIS YAPMAK ICIN DOGRULAMA KODUNUZ:{kod}. IYI GUNLER DILERIZ. KODUN SON GECERLİLİK TARIHI {sms.GecerlilikTarih}";
+                        sms.Kod = kod;
+                        sms.SmsTur = 2;
+                        sms.GidenTel = kisiTel;
+                        context.Smsler.Add(sms);
+                        context.SaveChanges();
+                        return kod;
+                    }
+                    else if (flag == 3)
+                    {
+                        Ad = kisiBilgi(id).Ad;
+                        Soyad = kisiBilgi(id).Soyad;
+                        kisiTel = kisiBilgi(id).Tel;
+                        Sms sms = new Sms();
+                        sms.KayitTarihi = DateTime.Now;
+                        sms.KisiId = id;
+                        sms.GecerlilikTarih = DateTime.Now.AddMinutes(5);
+                        sms.Text = $"Merhaba {Ad} {Soyad} ALO 153 GBB MOBIL UYGULAMASINA CIKIS YAPMAK ICIN DOGRULAMA KODUNUZ:{kod}. IYI GUNLER DILERIZ. KODUN SON GECERLİLİK TARIHI {sms.GecerlilikTarih}";
+                        sms.Kod = kod;
+                        sms.SmsTur = 3;
+                        sms.GidenTel = kisiTel;
+                        context.Smsler.Add(sms);
+                        context.SaveChanges();
+                        return kod;
+                    }
+                    else if (flag == 4)
+                    {
+                        Ad = kisiBilgi(id).Ad;
+                        Soyad = kisiBilgi(id).Soyad;
+                        kisiTel = kisiBilgi(id).Tel;
+                        Sms sms = new Sms();
+                        sms.KayitTarihi = DateTime.Now;
+                        sms.KisiId = id;
+                        sms.GecerlilikTarih = DateTime.Now.AddMinutes(5);
+                        sms.Text = $"Merhaba {Ad} {Soyad} ALO 153 GBB MOBIL UYGULAMASINDA HESAP BILGILERINIZI GUNCELLEMEK ICIN DOGRULAMA KODUNUZ:{kod}. IYI GUNLER DILERIZ. KODUN SON GECERLİLİK TARIHI {sms.GecerlilikTarih}";
+                        sms.Kod = kod;
+                        sms.SmsTur = 4;
+                        sms.GidenTel = kisiTel;
+                        context.Smsler.Add(sms);
+                        context.SaveChanges();
+                        return kod;
+                    }
+                    else if (flag == 5)
+                    {
+                        Ad = kisiBilgi(id).Ad;
+                        Soyad = kisiBilgi(id).Soyad;
+                        kisiTel = kisiBilgi(id).Tel;
+                        Sms sms = new Sms();
+                        sms.KayitTarihi = DateTime.Now;
+                        sms.KisiId = id;
+                        sms.GecerlilikTarih = DateTime.Now.AddMinutes(5);
+                        sms.Text = $"Merhaba {Ad} {Soyad} ALO 153 GBB MOBIL UYGULAMASINDA BULUNAN HESABINIZI SILMEK ICIN DOGRULAMA KODUNUZ:{kod}. IYI GUNLER DILERIZ. KODUN SON GECERLİLİK TARIHI {sms.GecerlilikTarih}";
+                        sms.Kod = kod;
+                        sms.SmsTur = 5;
+                        sms.GidenTel = kisiTel;
+                        context.Smsler.Add(sms);
+                        context.SaveChanges();
+                        return kod;
+                    }
+                    else
+                    {
+                        return "HATA";
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    return "Hatalı Bilgi.";
+                }
+            }
+        }
+
         public int createUser(KayitParametre kayitParametre, int id)
         {
             int createdUserId = 0;
@@ -483,9 +613,11 @@ namespace WebApi.Controllers
                 {
                     if (true)
                     {
+                        Kisi kisi = context.Kisiler.Find(id);
                         Kullanici kullanici = new Kullanici()
                         {
-
+                            KullaniciAdi = kisi.Tc,
+                            KullaniciSifre = kisi.Tel,
                             Aktif = true,
                             KayitTarihi = DateTime.Now,
                             KisiId = id
@@ -504,36 +636,6 @@ namespace WebApi.Controllers
             }
             return createdUserId;
         }
-        public string smsGonder(int id)
-        {
-            Random rnd = new Random();
-            string kod = rnd.Next(100000, 999999).ToString();
-            using (WebApiContext context = new WebApiContext())
-            {
-                try
-                {
-                    Kisi kisi = context.Kisiler.Find(id);
-                    Ad = kisi.Ad;
-                    Soyad = kisi.Soyad;
-                    kisiTel = kisi.Tel;
-                    Sms sms = new Sms();
-                    sms.KayitTarihi = DateTime.Now;
-                    sms.KisiId = id;
-                    sms.GecerlilikTarih = DateTime.Now.AddMinutes(5);
-                    sms.Text = $"Merhaba {Ad} {Soyad} ALO 153 GBB MOBIL UYGULAMASI ICIN DOGRULAMA KODUNUZ:{kod}. IYI GUNLER DILERIZ. KODUN SON GECERLİLİK TARIHI {sms.GecerlilikTarih}";
-                    sms.Kod = kod;
-                    sms.GidenTel = kisiTel;
-                    context.Smsler.Add(sms);
-                    context.SaveChanges();
-                    return kod;
-                }
-                catch (Exception)
-                {
-
-                    return "Hatalı Bilgi.";
-                }
-            }
-        }
 
         public int kulCek(string Tc, string Tel)
         {
@@ -541,26 +643,13 @@ namespace WebApi.Controllers
             using (WebApiContext context = new WebApiContext())
             {
                 Kisi kisi = context.Kisiler.Where(x => x.Tel == Tel && x.Tc == Tc).FirstOrDefault() as Kisi;
-                IdKisi = kisi.Id;
-                Kullanici kullanic = context.Kullanicilar.Where(x => x.KisiId == IdKisi).SingleOrDefault() as Kullanici;
-                IdKullanici = kullanic.Id;
+
+                Kullanici kullanic = context.Kullanicilar.Where(x => x.KisiId == kisi.Id).SingleOrDefault() as Kullanici;
+                return kullanic.Id;
             }
-            return IdKullanici;
+
         }
-        public int kisiCek(int kisiId)
-        {
 
-            using (WebApiContext context = new WebApiContext())
-            {
-
-                Kullanici kullanic = context.Kullanicilar.Where(x => x.KisiId == kisiId).SingleOrDefault() as Kullanici;
-                IdKisi = kullanic.KisiId;
-                Kisi kisi = context.Kisiler.Where(x => x.Id == IdKisi).FirstOrDefault() as Kisi;
-                IdKisi = kisi.Id;
-            };
-
-            return IdKisi;
-        }
         public int tcKisiCek(string tc, string tel)
         {
             using (WebApiContext context = new WebApiContext())
@@ -570,9 +659,13 @@ namespace WebApi.Controllers
                 {
                     return kisi.Id;
                 }
+                else if (kisi == null)
+                {
+                    return 0;
+                }
                 else
                 {
-                    return -1;
+                    return 0;
                 }
             };
 
@@ -616,6 +709,20 @@ namespace WebApi.Controllers
                     return true;
                 }
             };
+        }
+
+        public KayitParametre kisiBilgi(int id)
+        {
+            KayitParametre param = new KayitParametre();
+            using (WebApiContext context = new WebApiContext())
+            {
+                Kullanici kullanici = context.Kullanicilar.Find(id);
+                Kisi kisi = context.Kisiler.Find(kullanici.KisiId);
+                param.Ad = kisi.Ad;
+                param.Soyad = kisi.Soyad;
+                param.Mail = kisi.Mail;
+                return param;
+            }
         }
 
     }

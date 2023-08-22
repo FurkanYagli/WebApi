@@ -8,6 +8,7 @@ namespace WebApi.Models
 {
     public class Sms : Entity
     {
+        public int SmsTur { get; set; }
         public int KisiId { get; set; }
 
         public string Text { get; set; }

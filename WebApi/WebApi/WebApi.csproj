@@ -113,33 +113,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202308160545283_deneme.cs" />
-    <Compile Include="Migrations\202308160545283_deneme.designer.cs">
-      <DependentUpon>202308160545283_deneme.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308161058013_second.cs" />
-    <Compile Include="Migrations\202308161058013_second.designer.cs">
-      <DependentUpon>202308161058013_second.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308161119133_second1.cs" />
-    <Compile Include="Migrations\202308161119133_second1.designer.cs">
-      <DependentUpon>202308161119133_second1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308170557591_first.cs" />
-    <Compile Include="Migrations\202308170557591_first.designer.cs">
-      <DependentUpon>202308170557591_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308170618286_Ban.cs" />
-    <Compile Include="Migrations\202308170618286_Ban.designer.cs">
-      <DependentUpon>202308170618286_Ban.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202308170657596_BanTarih.cs" />
-    <Compile Include="Migrations\202308170657596_BanTarih.designer.cs">
-      <DependentUpon>202308170657596_BanTarih.cs</DependentUpon>
+    <Compile Include="Migrations\202308221107242_first.cs" />
+    <Compile Include="Migrations\202308221107242_first.designer.cs">
+      <DependentUpon>202308221107242_first.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AltKategori.cs" />
-    <Compile Include="Models\Ban.cs" />
+    <Compile Include="Models\Aktiflik.cs" />
     <Compile Include="Models\BelBilgi.cs" />
     <Compile Include="Models\Bildiri.cs" />
     <Compile Include="Models\Duyuru.cs" />
@@ -154,7 +134,9 @@
     <Compile Include="Models\Konum.cs" />
     <Compile Include="Models\Kullanici.cs" />
     <Compile Include="Models\Sayfa.cs" />
+    <Compile Include="Models\SilinmeTurleri.cs" />
     <Compile Include="Models\Sms.cs" />
+    <Compile Include="Models\TurSms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App\FromApi\BildiriParametre.cs" />
     <Compile Include="App\FromApi\GirisParametre.cs" />
@@ -173,23 +155,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202308160545283_deneme.resx">
-      <DependentUpon>202308160545283_deneme.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308161058013_second.resx">
-      <DependentUpon>202308161058013_second.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308161119133_second1.resx">
-      <DependentUpon>202308161119133_second1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308170557591_first.resx">
-      <DependentUpon>202308170557591_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308170618286_Ban.resx">
-      <DependentUpon>202308170618286_Ban.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202308170657596_BanTarih.resx">
-      <DependentUpon>202308170657596_BanTarih.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202308221107242_first.resx">
+      <DependentUpon>202308221107242_first.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
